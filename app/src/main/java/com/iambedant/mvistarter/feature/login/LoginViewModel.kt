@@ -89,11 +89,11 @@ class LoginViewModel(private val loginActionProcessorHolder: LoginActionProcesso
                 }
 
                 is LoginResult.TypePasswordResult->{
-                    previousState.copy(password = result.password,isError = false, errorMessage = "")
+                    previousState.copy(password = result.password,isError = false, errorMessage = "",isLoading = false)
                 }
 
                 is LoginResult.TypeUserIdResult->{
-                    previousState.copy(userId = result.userId,isError = false, errorMessage = "")
+                    previousState.copy(userId = result.userId,isError = false, errorMessage = "",isLoading = false)
                 }
             }
         }
