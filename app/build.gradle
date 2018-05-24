@@ -4,11 +4,13 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.iambedant.mvistarter"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -23,10 +25,51 @@ android {
 }
 
 dependencies {
+    def lifecycleVersion = "1.1.1"
+    def daggerVersion = '2.15'
+    def retrofitVersion ='2.4.0'
+    def okHttpVersion = '3.9.1'
+    def rxjavaVersion = '2.1.10'
+    def rxAndroidVersion = '2.0.2'
+    def timberVersion = '4.7.0'
+    def supportLibraryVersion = '27.1.1'
+    def constraintLayoutVersion = '1.1.0'
+    def rxbindingVersion ='2.1.1'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion") {
+        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+    }
+
+    //Logging
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
+
+    //Dagger
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    //RxBinding
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rxbindingVersion"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
