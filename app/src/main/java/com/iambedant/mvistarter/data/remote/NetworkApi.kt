@@ -2,8 +2,10 @@ package com.iambedant.mvistarter.data.remote
 
 import com.iambedant.mvistarter.data.remote.model.LoginRequest
 import com.iambedant.mvistarter.data.remote.model.LoginResponse
+import com.iambedant.mvistarter.data.remote.model.NewsResponse
 import io.reactivex.Single
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -16,5 +18,8 @@ interface NetworkApi {
 
     @POST("auth/login/")
     fun doLogin (@Body request: LoginRequest): Single<LoginResponse>
+
+    @GET("https://newsapi.org/v2/top-headlines?country=us&apiKey=d33e891e97b74a838f165a171a07abda")
+    fun loadNews(): Single<NewsResponse>
 }
 

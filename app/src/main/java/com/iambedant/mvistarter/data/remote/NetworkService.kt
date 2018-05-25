@@ -8,4 +8,5 @@ import kotlin.math.log
  */
 class NetworkService(private val networkApi: NetworkApi) {
     fun doLogin(loginRequest: LoginRequest) = networkApi.doLogin(loginRequest)
+    fun loadNews() = networkApi.loadNews()
 }

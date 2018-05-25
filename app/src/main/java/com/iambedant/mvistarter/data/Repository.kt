@@ -2,6 +2,7 @@ package com.iambedant.mvistarter.data
 
 import com.iambedant.mvistarter.data.remote.model.LoginRequest
 import com.iambedant.mvistarter.data.remote.model.LoginResponse
+import com.iambedant.mvistarter.data.remote.model.NewsResponse
 import io.reactivex.Single
 
 /**
@@ -9,4 +10,5 @@ import io.reactivex.Single
  */
 interface Repository {
     fun doLogin(loginRequest: LoginRequest): Single<LoginResponse>
+    fun loadNews(): Single<NewsResponse>
 }

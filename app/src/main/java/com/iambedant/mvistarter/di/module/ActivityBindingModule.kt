@@ -1,5 +1,6 @@
 package com.iambedant.mvistarter.di.module
 
+import com.iambedant.mvistarter.feature.home.HomeActivity
 import com.iambedant.mvistarter.feature.login.LoginActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -11,4 +12,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBindingModule {
     @ContributesAndroidInjector(modules = [(MviModule::class)])
     abstract fun loginActivity(): LoginActivity
+    @ContributesAndroidInjector(modules = [(MviModule::class)])
+    abstract fun homeActivity(): HomeActivity
 }

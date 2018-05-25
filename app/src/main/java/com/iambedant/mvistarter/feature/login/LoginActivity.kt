@@ -3,14 +3,14 @@ package com.iambedant.mvistarter.feature.login
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import com.iambedant.mvistarter.R
+import com.iambedant.mvistarter.feature.home.HomeActivity
+import com.iambedant.mvistarter.mvibase.MviView
 import com.iambedant.mvistarter.util.gone
 import com.iambedant.mvistarter.util.shortToast
 import com.iambedant.mvistarter.util.visible
-import com.iambedant.pizzaapp.mvibase.MviView
-import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -104,6 +104,10 @@ class LoginActivity : DaggerAppCompatActivity(), MviView<LoginIntent, LoginViewS
                 login.isEnabled = true
                 progressBar.gone()
             }
+             if(isLoginSuccessful){
+                 val intent = Intent(this@LoginActivity,HomeActivity::class.java)
+                 startActivity(intent)
+             }
 
         }
     }

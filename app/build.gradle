@@ -10,7 +10,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.iambedant.mvistarter"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -27,17 +27,17 @@ android {
 dependencies {
     def lifecycleVersion = "1.1.1"
     def daggerVersion = '2.15'
-    def retrofitVersion ='2.4.0'
+    def retrofitVersion = '2.4.0'
     def okHttpVersion = '3.9.1'
     def rxjavaVersion = '2.1.10'
     def rxAndroidVersion = '2.0.2'
     def timberVersion = '4.7.0'
     def supportLibraryVersion = '27.1.1'
     def constraintLayoutVersion = '1.1.0'
-    def rxbindingVersion ='2.1.1'
+    def rxbindingVersion = '2.1.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
@@ -58,6 +58,7 @@ dependencies {
     //Dagger
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -70,7 +71,12 @@ dependencies {
     //RxBinding
     implementation "com.jakewharton.rxbinding2:rxbinding:$rxbindingVersion"
 
+    //Image Loading
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
 }

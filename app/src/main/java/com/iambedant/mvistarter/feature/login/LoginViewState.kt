@@ -1,6 +1,7 @@
 package com.iambedant.mvistarter.feature.login
 
-import com.iambedant.pizzaapp.mvibase.MviViewState
+import com.iambedant.mvistarter.mvibase.MviViewState
+
 
 /**
  * Created by @iamBedant on 23/05/18.

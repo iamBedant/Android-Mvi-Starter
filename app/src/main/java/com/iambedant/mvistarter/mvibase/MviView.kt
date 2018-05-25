@@ -1,4 +1,4 @@
-package com.iambedant.pizzaapp.mvibase
+package com.iambedant.mvistarter.mvibase
 
 import io.reactivex.Observable
 

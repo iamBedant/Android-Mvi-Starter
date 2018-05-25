@@ -1,6 +1,7 @@
 package com.iambedant.mvistarter.feature.login
 
-import com.iambedant.pizzaapp.mvibase.MviIntent
+import com.iambedant.mvistarter.mvibase.MviIntent
+
 
 /**
  * Created by @iamBedant on 23/05/18.

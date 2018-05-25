@@ -3,7 +3,7 @@ package com.iambedant.mvistarter.feature.login
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.iambedant.pizzaapp.mvibase.MviViewModel
+import com.iambedant.mvistarter.mvibase.MviViewModel
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.disposables.CompositeDisposable
