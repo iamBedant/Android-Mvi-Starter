@@ -10,6 +10,11 @@ An MVI Boilerplate project
 * Glide
 * Timber
 
+## Architecture Blueprint
+
+![](https://cdn-images-1.medium.com/max/2000/1*aaQHbAxvLB1NyEGtgJEJ_w.jpeg)
+
+
 
 ## TODO
 * Add Unit and Ui tests
