@@ -1,36 +1,29 @@
 package com.iambedant.mvistarter.feature.login
 
-import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.os.Bundle
 import com.iambedant.mvistarter.R
+import com.iambedant.mvistarter.feature.base.BaseActivity
 import com.iambedant.mvistarter.feature.home.HomeActivity
 import com.iambedant.mvistarter.mvibase.MviView
 import com.iambedant.mvistarter.util.gone
 import com.iambedant.mvistarter.util.shortToast
 import com.iambedant.mvistarter.util.visible
 import com.jakewharton.rxbinding2.widget.RxTextView
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
-import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class LoginActivity : DaggerAppCompatActivity(), MviView<LoginIntent, LoginViewState>, HasActivityInjector {
+class LoginActivity : BaseActivity(), MviView<LoginIntent, LoginViewState>, HasActivityInjector {
 
-    @Inject
-    lateinit var injector: DispatchingAndroidInjector<Activity>
+    override fun layoutId(): Int = R.layout.activity_main
     @Inject
     lateinit var factory: LoginViewmodelFactory
 
-    val disposable = CompositeDisposable()
 
     private val viewModel: LoginViewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProviders.of(this, factory).get(LoginViewModel::class.java)
@@ -44,19 +37,7 @@ class LoginActivity : DaggerAppCompatActivity(), MviView<LoginIntent, LoginViewS
     private val typeUserIdIntent = PublishSubject.create<LoginIntent.typeUserIdIntent>()
     private val typePasswordIntent = PublishSubject.create<LoginIntent.typePasswordIntent>()
 
-
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return injector
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        bind()
-    }
-
-    private fun bind() {
+     override fun bind() {
         viewModel.processIntents(intents())
         viewModel.states().observe(this, Observer { if (it != null) render(it) })
 
@@ -110,10 +91,5 @@ class LoginActivity : DaggerAppCompatActivity(), MviView<LoginIntent, LoginViewS
              }
 
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposable.dispose()
     }
 }

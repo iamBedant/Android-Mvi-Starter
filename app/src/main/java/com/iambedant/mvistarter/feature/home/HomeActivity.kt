@@ -21,19 +21,26 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_home.*
 import javax.inject.Inject
 import android.content.Intent
+import com.iambedant.mvistarter.feature.base.BaseActivity
 
 
+class HomeActivity : BaseActivity(), MviView<HomeIntent, HomeViewState>{
 
-class HomeActivity : DaggerAppCompatActivity(), MviView<HomeIntent, HomeViewState>, HasActivityInjector {
+    override fun bind() {
+        newsRv.layoutManager = GridLayoutManager(this, 1)
+        viewModel.processIntents(intents())
+        viewModel.states().observe(this, Observer { if (it != null) render(it) })
+    }
 
-    @Inject
-    lateinit var injector: DispatchingAndroidInjector<Activity>
+    override fun layoutId(): Int = R.layout.activity_home
+
+
     @Inject
     lateinit var factory: HomeViewmodelFactory
 
     private val clickIntent = PublishSubject.create<HomeIntent.ClickIntent>()
 
-    val disposable = CompositeDisposable()
+
 
     private val viewModel: HomeViewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProviders.of(this, factory).get(HomeViewModel::class.java)
@@ -41,19 +48,6 @@ class HomeActivity : DaggerAppCompatActivity(), MviView<HomeIntent, HomeViewStat
 
     private fun initialIntent(): Observable<HomeIntent.InitialIntent> {
         return Observable.just(HomeIntent.InitialIntent)
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-        bind()
-    }
-
-    private fun bind() {
-        newsRv.layoutManager = GridLayoutManager(this, 1)
-        viewModel.processIntents(intents())
-        viewModel.states().observe(this, Observer { if (it != null) render(it) })
     }
 
     override fun intents(): Observable<HomeIntent> {
