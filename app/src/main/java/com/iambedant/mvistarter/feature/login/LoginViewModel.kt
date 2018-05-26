@@ -1,28 +1,23 @@
 package com.iambedant.mvistarter.feature.login
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import com.iambedant.mvistarter.mvibase.MviViewModel
+import com.iambedant.mvistarter.feature.base.BaseViewModel
+import com.iambedant.mvistarter.mvibase.MviActionProcessorHolder
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
-import io.reactivex.subjects.PublishSubject
 
 /**
  * Created by @iamBedant on 23/05/18.
  */
 class LoginViewModel(private val loginActionProcessorHolder: LoginActionProcessorHolder) :
-        ViewModel(),
-        MviViewModel<LoginIntent, LoginViewState> {
+        BaseViewModel<LoginIntent, LoginViewState, LoginAction, LoginResult>() {
 
-    private val intentsSubject: PublishSubject<LoginIntent> = PublishSubject.create()
-    private val statesObservable: Observable<LoginViewState> = compose()
-    private val statesLiveData: MutableLiveData<LoginViewState> = MutableLiveData()
-    private val disposables: CompositeDisposable = CompositeDisposable()
-    private val intentFilter: ObservableTransformer<LoginIntent, LoginIntent>
-        get() = ObservableTransformer { intents ->
+    override fun initialState(): LoginViewState = LoginViewState.idle()
+    override fun reducer(): BiFunction<LoginViewState, LoginResult, LoginViewState> = reducer
+    override fun actionProcessorHolder(): MviActionProcessorHolder<LoginAction, LoginResult> = loginActionProcessorHolder
+
+    override fun intentFilter(): ObservableTransformer<LoginIntent, LoginIntent> {
+        return ObservableTransformer { intents ->
             intents.publish { shared ->
                 Observable.merge<LoginIntent>(
                         shared.ofType(LoginIntent.InitialIntent::class.java).take(1),
@@ -30,35 +25,17 @@ class LoginViewModel(private val loginActionProcessorHolder: LoginActionProcesso
                 )
             }
         }
+    }
 
     init {
-        disposables.add(statesObservable.subscribe { statesLiveData.postValue(it)})
+        connectObservableToLiveData()
     }
 
-    override fun processIntents(intents: Observable<LoginIntent>) {
-        intents.subscribe(intentsSubject)
-    }
-
-    override fun states(): LiveData<LoginViewState> {
-        return statesLiveData
-    }
-
-    private fun compose(): Observable<LoginViewState> {
-        return intentsSubject
-                .compose(intentFilter)
-                .map(this::actionFromIntent)
-                .compose(loginActionProcessorHolder.transformFromAction())
-                .scan(LoginViewState.idle(), reducer)
-                .distinctUntilChanged()
-                .replay(1)
-                .autoConnect(0)
-    }
-
-    private fun actionFromIntent(intent: LoginIntent): LoginAction {
+    override fun actionFromIntent(intent: LoginIntent): LoginAction {
         return when (intent) {
             is LoginIntent.InitialIntent -> LoginAction.LoadLoginAction
             is LoginIntent.DoLoginIntent -> LoginAction.DoLoginAction(intent.userId, intent.password)
-            is LoginIntent.typePasswordIntent-> LoginAction.TypePasswordAction(intent.password)
+            is LoginIntent.typePasswordIntent -> LoginAction.TypePasswordAction(intent.password)
             is LoginIntent.typeUserIdIntent -> LoginAction.TypeUserIdAction(intent.userId)
             else -> throw IllegalArgumentException("unknown intent")
         }
@@ -83,17 +60,17 @@ class LoginViewModel(private val loginActionProcessorHolder: LoginActionProcesso
                             previousState.copy(isLoginSuccessful = false, isError = true, errorMessage = result.errorMessage)
                         }
                         is LoginResult.DoLoginResult.InFlight -> {
-                            previousState.copy(isLoading = true,isError = false, errorMessage = "")
+                            previousState.copy(isLoading = true, isError = false, errorMessage = "")
                         }
                     }
                 }
 
-                is LoginResult.TypePasswordResult->{
-                    previousState.copy(password = result.password,isError = false, errorMessage = "",isLoading = false)
+                is LoginResult.TypePasswordResult -> {
+                    previousState.copy(password = result.password, isError = false, errorMessage = "", isLoading = false)
                 }
 
-                is LoginResult.TypeUserIdResult->{
-                    previousState.copy(userId = result.userId,isError = false, errorMessage = "",isLoading = false)
+                is LoginResult.TypeUserIdResult -> {
+                    previousState.copy(userId = result.userId, isError = false, errorMessage = "", isLoading = false)
                 }
             }
         }

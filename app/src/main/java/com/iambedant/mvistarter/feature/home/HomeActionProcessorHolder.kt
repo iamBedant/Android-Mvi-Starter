@@ -1,6 +1,7 @@
 package com.iambedant.mvistarter.feature.home
 
 import com.iambedant.mvistarter.data.Repository
+import com.iambedant.mvistarter.mvibase.MviActionProcessorHolder
 import com.iambedant.mvistarter.util.schedulers.BaseSchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -10,8 +11,8 @@ import javax.inject.Inject
  * Created by @iamBedant on 23/05/18.
  */
 class HomeActionProcessorHolder @Inject constructor(private val repository: Repository,
-                                                    private val schedulerProvider: BaseSchedulerProvider) {
-    fun transformAction(): ObservableTransformer<HomeAction, HomeResult> {
+                                                    private val schedulerProvider: BaseSchedulerProvider) : MviActionProcessorHolder<HomeAction, HomeResult> {
+    override fun transformFromAction(): ObservableTransformer<HomeAction, HomeResult> {
         return ObservableTransformer { action ->
             action.publish { shared ->
                 Observable.merge(
@@ -21,8 +22,8 @@ class HomeActionProcessorHolder @Inject constructor(private val repository: Repo
                 )
             }
         }
-
     }
+
 
     private fun shareArticle(): ObservableTransformer<HomeAction.ClickAction, HomeResult.ClickResult> {
         return ObservableTransformer { action ->

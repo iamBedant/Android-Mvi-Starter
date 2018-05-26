@@ -15,7 +15,6 @@ data class HomeViewState(val isLoading: Boolean,
                          val shareArticle: ArticlesItem?
 ) : MviViewState {
 
-
     companion object {
         fun idle(): HomeViewState {
             return HomeViewState(

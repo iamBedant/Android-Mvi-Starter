@@ -2,6 +2,7 @@ package com.iambedant.mvistarter.feature.login
 
 import com.iambedant.mvistarter.data.Repository
 import com.iambedant.mvistarter.data.remote.model.LoginRequest
+import com.iambedant.mvistarter.mvibase.MviActionProcessorHolder
 import com.iambedant.mvistarter.util.schedulers.BaseSchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -11,8 +12,8 @@ import javax.inject.Inject
  * Created by @iamBedant on 23/05/18.
  */
 class LoginActionProcessorHolder @Inject constructor(private val repository: Repository,
-                                                     private val schedulerProvider: BaseSchedulerProvider) {
-    fun transformFromAction(): ObservableTransformer<LoginAction, LoginResult> {
+                                                     private val schedulerProvider: BaseSchedulerProvider) :MviActionProcessorHolder<LoginAction,LoginResult>{
+     override fun transformFromAction(): ObservableTransformer<LoginAction, LoginResult> {
         return ObservableTransformer { action ->
             action.publish { shared ->
                 Observable.merge(
