@@ -17,7 +17,7 @@ An MVI Boilerplate project
 
 
 ## TODO
-* Add Unit and Ui tests
+* Add Ui tests
 * Add Database Support
 * Set up Code analysis tools
 
