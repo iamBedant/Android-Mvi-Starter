@@ -1,6 +1,10 @@
 # Android-Mvi-Starter(Under Development)
 An MVI Boilerplate project 
 
+## Architecture Blueprint
+
+![](https://cdn-images-1.medium.com/max/2000/1*aaQHbAxvLB1NyEGtgJEJ_w.jpeg)
+
 ## Library Used
 * RxJava2 and RxAndroid
 * Retrofit / OkHttp
@@ -10,10 +14,9 @@ An MVI Boilerplate project
 * Glide
 * Timber
 
-## Architecture Blueprint
-
-![](https://cdn-images-1.medium.com/max/2000/1*aaQHbAxvLB1NyEGtgJEJ_w.jpeg)
-
+## Tests
+* run `./gradlew test` for unit tests.
+* UI tests (TODO)
 
 
 ## TODO
