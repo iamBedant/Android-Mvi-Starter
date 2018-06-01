@@ -1,27 +1,27 @@
 package com.iambedant.mvistarter.login
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Observer
 import com.iambedant.mvistarter.data.Repository
 import com.iambedant.mvistarter.data.remote.model.LoginResponse
+import com.iambedant.mvistarter.data.remote.model.Response
 import com.iambedant.mvistarter.feature.login.LoginActionProcessorHolder
 import com.iambedant.mvistarter.feature.login.LoginIntent
 import com.iambedant.mvistarter.feature.login.LoginViewModel
 import com.iambedant.mvistarter.feature.login.LoginViewState
 import com.iambedant.mvistarter.util.schedulers.BaseSchedulerProvider
 import com.iambedant.mvistarter.util.schedulers.ImmediateSchedulerProvider
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable
-import org.mockito.Mockito.`when` as whenever
+import io.reactivex.Single
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import com.iambedant.mvistarter.data.remote.model.Response
-import com.nhaarman.mockito_kotlin.any
-import io.reactivex.Single
-import org.junit.Rule
-import org.junit.rules.TestRule
+import org.mockito.Mockito.`when` as whenever
 
 
 /**
@@ -59,10 +59,10 @@ class LoginViewModelTest {
 
     @Test
     fun typePasswordIntentTest() {
-        loginViewModel.processIntents(Observable.just(LoginIntent.typePasswordIntent("hi")))
+        loginViewModel.processIntents(Observable.just(LoginIntent.typePasswordIntent(password)))
         verify(observer).onChanged(LoginViewState(isError = false,
                 isLoading = false,
-                password = "hi",
+                password = password,
                 userId = "",
                 isLoginSuccessful = false,
                 errorMessage = ""))
@@ -70,15 +70,8 @@ class LoginViewModelTest {
 
     @Test
     fun typeUserIdIntentTest() {
-        loginViewModel.processIntents(Observable.just(LoginIntent.typeUserIdIntent("hello")))
-        assert(loginViewModel.states().value?.userId == "hello")
-    }
-
-    @Test
-    fun loginWithValidUsernamePassword() {
-        whenever(repository.doLogin(any())).thenReturn(Single.just(LoginResponse("", Response(name = "John"), "")))
-        loginViewModel.processIntents(Observable.just(LoginIntent.DoLoginIntent("hello", "Hi")))
-        assert(loginViewModel.states().value?.isLoginSuccessful == true)
+        loginViewModel.processIntents(Observable.just(LoginIntent.typeUserIdIntent(userId)))
+        assert(loginViewModel.states().value?.userId == userId)
     }
 
     @Test
@@ -89,14 +82,14 @@ class LoginViewModelTest {
                 password = "",
                 userId = "",
                 isLoginSuccessful = false,
-                errorMessage = "UserId or password can't be empty"))
+                errorMessage = userIdPasswordError))
     }
 
 
     @Test
-    fun loginWithValidUsernamePasswordq() {
-        whenever(repository.doLogin(any())).thenReturn(Single.just(LoginResponse("", Response(), "")))
-        loginViewModel.processIntents(Observable.just(LoginIntent.DoLoginIntent("hello", "Hi")))
+    fun loginWithValidUsernamePassword() {
+        whenever(repository.doLogin(any())).thenReturn(Single.just(loginResponse))
+        loginViewModel.processIntents(Observable.just(LoginIntent.DoLoginIntent(password, password)))
         //Loading ViewSstate
         verify(observer).onChanged(LoginViewState(isError = false,
                 isLoading = true,
@@ -115,8 +108,8 @@ class LoginViewModelTest {
 
     @Test
     fun loginFailTest() {
-        whenever(repository.doLogin(any())).thenReturn(Single.error(Throwable("This is some kind of error")))
-        loginViewModel.processIntents(Observable.just(LoginIntent.DoLoginIntent("hello", "Hi")))
+        whenever(repository.doLogin(any())).thenReturn(Single.error(throwable))
+        loginViewModel.processIntents(Observable.just(LoginIntent.DoLoginIntent(userId, password)))
         verify(observer).onChanged(LoginViewState(isError = false,
                 isLoading = true,
                 password = "",
@@ -125,12 +118,20 @@ class LoginViewModelTest {
                 errorMessage = ""))
         verify(observer).onChanged(LoginViewState(isLoading = false,
                 userId = "",
-                password = "", errorMessage = "This is some kind of error",
+                password = "", errorMessage = errormessage,
                 isError = true,
                 isLoginSuccessful = false))
 
 
     }
 
+    companion object {
+        private const val errormessage = "This is some kind of error"
+        private val throwable = Throwable(errormessage)
+        private val loginResponse = LoginResponse("", Response(), "")
+        private val password ="password"
+        private val userId = "userId"
+        private val userIdPasswordError = "UserId or password can't be empty"
+    }
 
 }
