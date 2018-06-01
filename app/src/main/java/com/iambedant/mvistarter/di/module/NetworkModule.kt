@@ -1,7 +1,8 @@
 package com.iambedant.mvistarter.di.module
 
-import com.iambedant.mvistarter.data.remote.NetworkApi
-import com.iambedant.mvistarter.data.remote.NetworkService
+import com.iambedant.mvistarter.data.remote.Network
+import com.iambedant.mvistarter.data.remote.retrofit.NetworkApi
+import com.iambedant.mvistarter.data.remote.NetworkImpl
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -43,5 +44,5 @@ class NetworkModule{
 
     @Provides
     @Singleton
-    fun provideNetworkService(networkApi: NetworkApi): NetworkService = NetworkService(networkApi)
+    fun provideNetwork(networkApi: NetworkApi): Network = NetworkImpl(networkApi)
 }

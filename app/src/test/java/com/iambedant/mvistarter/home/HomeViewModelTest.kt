@@ -10,9 +10,6 @@ import com.iambedant.mvistarter.feature.home.HomeActionProcessorHolder
 import com.iambedant.mvistarter.feature.home.HomeIntent
 import com.iambedant.mvistarter.feature.home.HomeViewModel
 import com.iambedant.mvistarter.feature.home.HomeViewState
-import com.iambedant.mvistarter.feature.login.LoginActionProcessorHolder
-import com.iambedant.mvistarter.feature.login.LoginViewModel
-import com.iambedant.mvistarter.feature.login.LoginViewState
 import com.iambedant.mvistarter.util.schedulers.BaseSchedulerProvider
 import com.iambedant.mvistarter.util.schedulers.ImmediateSchedulerProvider
 import com.nhaarman.mockito_kotlin.times
@@ -26,7 +23,6 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import org.mockito.verification.VerificationMode
 
 /**
  * Created by @iamBedant on 01/06/18.

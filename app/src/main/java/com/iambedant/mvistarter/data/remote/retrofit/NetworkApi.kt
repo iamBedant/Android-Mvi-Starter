@@ -1,4 +1,4 @@
-package com.iambedant.mvistarter.data.remote
+package com.iambedant.mvistarter.data.remote.retrofit
 
 import com.iambedant.mvistarter.data.remote.model.LoginRequest
 import com.iambedant.mvistarter.data.remote.model.LoginResponse
