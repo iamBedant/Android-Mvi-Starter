@@ -57,7 +57,7 @@ class LoginViewModel(private val loginActionProcessorHolder: LoginActionProcesso
                             previousState.copy(isLoginSuccessful = true, isLoading = false)
                         }
                         is LoginResult.DoLoginResult.Failure -> {
-                            previousState.copy(isLoginSuccessful = false, isError = true, errorMessage = result.errorMessage)
+                            previousState.copy(isLoading = false, isLoginSuccessful = false, isError = true, errorMessage = result.errorMessage)
                         }
                         is LoginResult.DoLoginResult.InFlight -> {
                             previousState.copy(isLoading = true, isError = false, errorMessage = "")
