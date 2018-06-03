@@ -38,7 +38,6 @@ class HomeActionProcessorHolder @Inject constructor(private val repository: Repo
         return ObservableTransformer { action ->
             action.flatMap {
                 repository.loadNews()
-                        .toObservable()
                         .map { response -> HomeResult.LoadHomeResult.Success(response.articles) }
                         .cast(HomeResult.LoadHomeResult::class.java)
                         .onErrorReturn { t ->

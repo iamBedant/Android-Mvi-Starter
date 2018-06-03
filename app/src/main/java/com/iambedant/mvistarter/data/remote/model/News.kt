@@ -1,11 +1,9 @@
 package com.iambedant.mvistarter.data.remote.model
 
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Embedded
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import com.google.gson.annotations.SerializedName
+import com.iambedant.mvistarter.data.local.db.room.DataTypeConverter
 
 data class ArticlesItem(
         @ColumnInfo(name = "publishedAt")
@@ -39,16 +37,17 @@ data class ArticlesItem(
 
 @Entity(tableName = "news_response")
 data class NewsResponse(
-        @PrimaryKey(autoGenerate = true)
-        val id : String,
+        @PrimaryKey
+        val id: Int,
 
         @ColumnInfo(name = "name")
         @SerializedName("totalResults")
         val totalResults: Int = 0,
 
-
+        @ColumnInfo(name = "articles")
+        @TypeConverters(DataTypeConverter::class)
         @SerializedName("articles")
-        val articles: List<ArticlesItem>,
+        val articles: List<ArticlesItem> = emptyList(),
 
         @ColumnInfo(name = "status")
         @SerializedName("status")
@@ -62,6 +61,6 @@ data class Source(
 
         @ColumnInfo(name = "id")
         @SerializedName("id")
-        val id: String? = null)
+        val id: String = "")
 
 

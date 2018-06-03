@@ -1,8 +1,8 @@
 package com.iambedant.mvistarter
 
+import com.facebook.stetho.Stetho
 import com.iambedant.mvistarter.di.component.DaggerAppComponent
 import com.iambedant.mvistarter.di.module.AppModule
-import com.iambedant.mvistarter.di.module.RoomModule
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import timber.log.Timber
@@ -14,7 +14,6 @@ class MviApp : DaggerApplication(){
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder()
                 .appModule(AppModule(this))
-                .roomModule(RoomModule(this))
                 .build()
     }
 
@@ -22,6 +21,7 @@ class MviApp : DaggerApplication(){
         super.onCreate()
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+            Stetho.initializeWithDefaults(this)
         }
     }
 }

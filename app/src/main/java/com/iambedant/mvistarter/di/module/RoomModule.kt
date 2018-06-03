@@ -1,7 +1,7 @@
 package com.iambedant.mvistarter.di.module
 
-import android.app.Application
 import android.arch.persistence.room.Room
+import android.content.Context
 import com.iambedant.mvistarter.data.local.Local
 import com.iambedant.mvistarter.data.local.LocalImpl
 import com.iambedant.mvistarter.data.local.db.room.AppDatabase
@@ -15,22 +15,17 @@ import javax.inject.Singleton
  * Created by @iamBedant on 03/06/18.
  */
 @Module
-class RoomModule(val application: Application) {
+class RoomModule{
 
-    private lateinit var demoDatabase: AppDatabase
-
-    fun RoomModule(mApplication: Application) {
-        demoDatabase = Room.databaseBuilder(mApplication, AppDatabase::class.java, "news-db").build()
+    @Singleton
+    @Provides
+    fun provideRoomDatabase(context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "news-db").build()
     }
 
     @Singleton
     @Provides
-    fun providesRoomDatabase(): AppDatabase = demoDatabase
-
-
-    @Singleton
-    @Provides
-    fun providesDao(demoDatabase: AppDatabase): RoomApi = demoDatabase.getDao()
+    fun providesDao(database: AppDatabase): RoomApi = database.getDao()
 
 
     @Singleton

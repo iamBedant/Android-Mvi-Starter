@@ -1,8 +1,8 @@
 package com.iambedant.mvistarter.di.module
 
 import com.iambedant.mvistarter.data.remote.Network
-import com.iambedant.mvistarter.data.remote.retrofit.NetworkApi
 import com.iambedant.mvistarter.data.remote.NetworkImpl
+import com.iambedant.mvistarter.data.remote.retrofit.NetworkApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -17,6 +17,7 @@ import javax.inject.Singleton
  */
 @Module
 class NetworkModule{
+
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {

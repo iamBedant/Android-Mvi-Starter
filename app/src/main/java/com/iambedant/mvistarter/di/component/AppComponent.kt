@@ -29,8 +29,6 @@ interface AppComponent : AndroidInjector<MviApp> {
 
         abstract fun appModule(appModule: AppModule): Builder
 
-        abstract fun roomModule(roomModule: RoomModule) : Builder
-
         override fun seedInstance(instance: MviApp?) {
             appModule(AppModule(instance!!))
         }
