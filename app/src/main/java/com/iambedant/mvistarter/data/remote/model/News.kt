@@ -1,35 +1,67 @@
 package com.iambedant.mvistarter.data.remote.model
 
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Embedded
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-data class ArticlesItem(@SerializedName("publishedAt")
-                        val publishedAt: String = "",
-                        @SerializedName("author")
-                        val author: String = "",
-                        @SerializedName("urlToImage")
-                        val urlToImage: String = "",
-                        @SerializedName("description")
-                        val description: String = "",
-                        @SerializedName("source")
-                        val source: Source,
-                        @SerializedName("title")
-                        val title: String = "",
-                        @SerializedName("url")
-                        val url: String = "")
+data class ArticlesItem(
+        @ColumnInfo(name = "publishedAt")
+        @SerializedName("publishedAt")
+        val publishedAt: String = "",
+
+        @ColumnInfo(name = "author")
+        @SerializedName("author")
+        val author: String = "",
+
+        @ColumnInfo(name = "urlToImage")
+        @SerializedName("urlToImage")
+        val urlToImage: String = "",
+
+        @ColumnInfo(name = "description")
+        @SerializedName("description")
+        val description: String = "",
+
+        @Embedded
+        @SerializedName("source")
+        val source: Source,
+
+        @ColumnInfo(name = "title")
+        @SerializedName("title")
+        val title: String = "",
+
+        @ColumnInfo(name = "url")
+        @SerializedName("url")
+        val url: String = "")
 
 
-data class NewsResponse(@SerializedName("totalResults")
-                        val totalResults: Int = 0,
-                        @SerializedName("articles")
-                        val articles: List<ArticlesItem>,
-                        @SerializedName("status")
-                        val status: String = "")
+@Entity(tableName = "news_response")
+data class NewsResponse(
+        @PrimaryKey(autoGenerate = true)
+        val id : String,
+
+        @ColumnInfo(name = "name")
+        @SerializedName("totalResults")
+        val totalResults: Int = 0,
 
 
-data class Source(@SerializedName("name")
-                  val name: String = "",
-                  @SerializedName("id")
-                  val id: String? = null)
+        @SerializedName("articles")
+        val articles: List<ArticlesItem>,
+
+        @ColumnInfo(name = "status")
+        @SerializedName("status")
+        val status: String = "")
+
+
+data class Source(
+        @ColumnInfo(name = "name")
+        @SerializedName("name")
+        val name: String = "",
+
+        @ColumnInfo(name = "id")
+        @SerializedName("id")
+        val id: String? = null)
 
 
