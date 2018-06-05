@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.iambedant.mvistarter.data.remote.model.NewsResponse
-import io.reactivex.Single
+import io.reactivex.Flowable
 
 
 /**
@@ -16,7 +16,7 @@ import io.reactivex.Single
 interface RoomApi {
 
     @Query("SELECT * FROM news_response WHERE id = 0")
-    fun loadNews(): Single<NewsResponse>
+    fun loadNews(): Flowable<NewsResponse>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNews(newsResponse: NewsResponse)

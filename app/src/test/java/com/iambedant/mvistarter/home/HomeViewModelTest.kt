@@ -16,7 +16,6 @@ import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
-import io.reactivex.Single
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -49,7 +48,8 @@ class HomeViewModelTest {
     @Test
     fun InitialIntentTest() {
         val articles = listOf<ArticlesItem>()
-        whenever(repository.loadNews()).thenReturn(Single.just(NewsResponse(
+        whenever(repository.loadNews()).thenReturn(Observable.just(NewsResponse(
+                id = 0,
                 totalResults = 10,
                 articles = articles,
                 status = ""
@@ -76,7 +76,7 @@ class HomeViewModelTest {
 
     @Test
     fun LoadErrorTest() {
-        whenever(repository.loadNews()).thenReturn(Single.error(Throwable("This is somekind of error")))
+        whenever(repository.loadNews()).thenReturn(Observable.error(Throwable("This is somekind of error")))
         homeViewModel.processIntents(Observable.just(HomeIntent.InitialIntent))
         verify(observer).onChanged(HomeViewState(
                 isLoading = true,

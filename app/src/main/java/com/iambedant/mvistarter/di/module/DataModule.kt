@@ -4,6 +4,7 @@ import com.iambedant.mvistarter.data.Repository
 import com.iambedant.mvistarter.data.RepositoryImpl
 import com.iambedant.mvistarter.data.local.Local
 import com.iambedant.mvistarter.data.remote.Network
+import com.iambedant.mvistarter.util.schedulers.BaseSchedulerProvider
 import dagger.Module
 import dagger.Provides
 
@@ -14,7 +15,7 @@ import dagger.Provides
 @Module
 class DataModule {
     @Provides
-    fun provideRepository(service: Network, local: Local): Repository {
-        return RepositoryImpl(service,local)
+    fun provideRepository(service: Network, local: Local, schedulerProvider: BaseSchedulerProvider): Repository {
+        return RepositoryImpl(service,local,schedulerProvider)
     }
 }
