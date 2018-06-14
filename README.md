@@ -24,7 +24,7 @@ An MVI Boilerplate project
 
 ## TODO
 * Add Ui tests
-* Add Database Support
+* Add Database Support (Wip on offline_support branch)
 * Set up Code analysis tools
 
 ## License
