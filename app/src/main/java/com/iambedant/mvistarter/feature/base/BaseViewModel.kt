@@ -40,7 +40,7 @@ abstract class BaseViewModel<I : MviIntent, S : MviViewState, A : MviAction, R :
     abstract fun actionFromIntent(intent: I): A
 
 
-    fun compose(): Observable<S> {
+    private fun compose(): Observable<S> {
         return intentsSubject
                 .compose(intentFilter())
                 .map(this::actionFromIntent)
